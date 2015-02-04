@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Node World - <%= title %></title>
+
+  <!-- CSS (load bootstrap from a CDN) -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <style>
+  body    { padding-top:50px; }
+  </style>
+
+</head>
+<body class="container">
+
+  <header>
+    <% include ../partials/header %>
+  </header>
+
+  <main>
+    <p><%= title %></p>
+    <div class="data_out">
+      <table class="table">
+        <tr>
+          <th>Country Code</th>
+          <th>Language</th>
+          <th>Percentage</th>
+        </tr>
+        <% data.forEach(function(language){ %>
+          <tr>
+            <td><%= language.CountryCode %></td>
+            <td><%= language.Language %></td>
+            <td><%= language.Percentage %></td>
+          </tr>
+          <% }); %>
+        </table>
+      </div>
+
+    </main>
+
+    <footer>
+      <% include ../partials/footer %>
+    </footer>
+
+  </body>
+  </html>
