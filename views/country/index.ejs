@@ -8,11 +8,38 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <style>
       body    { padding-top:50px; }
+      td{
+        width: 33%;
+      }
+      .backdrop{
+        opacity:0.7;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+        filter: alpha(opacity=80);
+          background-color:#999;
+          position:fixed;
+          width:100%;
+          height:100%;
+          top:0px;
+          left:0px;
+          z-index:1000;
+          display: none;
+        }
+        .window{
+          background-color: #fff;
+          width: 600px;
+          height: 300px;
+          z-index: 1001;
+          position: fixed;
+          display: none;
+          left: 25%;
+          top: 30%;
+          border-radius: 8px;
+          }
   </style>
 
 </head>
 <body class="container">
-
+      <% include ../partials/modal %>
     <header>
         <% include ../partials/header %>
     </header>
@@ -25,17 +52,14 @@
           <th>Code</th>
           <th>Name</th>
           <th>Continent</th>
-          <th>Region</th>
-          <th>Population</th>
         </tr>
       <% data.forEach(function(country){ %>
           <tr>
-            <td><%= country.Code %></td>
-            <td><%= country.Name %></td>
-            <td><%= country.Continent %></td>
-            <td><%= country.Region %></td>
-            <td><%= country.Population %></td>
+              <td><a class="capLink" href="#" data-capital="<%= country.Capital %>"><%= country.Code %></a></td>
+              <td><%= country.Name %></td>
+              <td><%= country.Continent %></td>
           </tr>
+
       <% }); %>
     </table>
       </div>
@@ -46,5 +70,40 @@
         <% include ../partials/footer %>
     </footer>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+    $(function(){
+       var $link = $('.capLink').click(function() {
+         var cap = $(this).attr('data-capital');
+         getCountryData(cap);
+         return false;
+       });
+    });
+
+    var getCountryData = function(cap){
+      $.ajax({
+          type: 'GET',
+          url: 'api/getCountryData/' + cap + '?format=json',
+          dataType: 'json',
+          async: true,
+          success: function(data){
+            buildCountryView(data);
+          }
+        });
+    };
+
+    var buildCountryView = function(data){
+      //init
+      var $back = $('.backdrop'),
+         $win = $('.window'),
+         $country = data[0][0],
+         object;
+
+      $back.fadeIn(300).delay(300);
+      $win.fadeIn(300);
+
+
+    };
+    </script>
 </body>
 </html>

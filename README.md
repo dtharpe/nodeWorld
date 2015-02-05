@@ -1,2 +1,0 @@
-# nodeWorld
-Node / Express / MySQL
